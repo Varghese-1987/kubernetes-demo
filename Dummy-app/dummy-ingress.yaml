@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dummy-ingress
+  namespace: dummy-app
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+    - hosts:
+        - hot-kube.ddns.net
+      secretName: dummy-tls
+  rules:
+    - host: hot-kube.ddns.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: my-service
+              servicePort: 8080
